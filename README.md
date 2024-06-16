@@ -4,9 +4,9 @@ Zoom is a video chat application designed to connect users online. It provides s
 A user can share the link from alert box to other users to join ths call.
 
 ## Dependencies
-Express: Web framework for Node.js
-Socket.io: Real-time communication library
-PeerJS: Simple peer-to-peer with WebRTC
+Express: Web framework for Node.js <br>
+Socket.io: Real-time communication library <br>
+PeerJS: Simple peer-to-peer with WebRTC<br>
 uuid: For generating unique room IDs
 
 ## Live Website
