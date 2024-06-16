@@ -16,7 +16,7 @@ Check out the live version of the app here: [Zoom Video Chat App](https://zoom-g
 ## Installation
 
 Follow these steps to clone the repository and set up the project locally:
-git clone https://github.com/your-username/zoom-video-chat-app.git
+git clone https://github.com/anshu-924/zoom.git
 
 # Navigate to the project directory
 cd zoom-video-chat-app
