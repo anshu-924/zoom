@@ -3,6 +3,7 @@ const myVideo = document.createElement("video");
 myVideo.muted = true;
 myVideo.style.transform = "scaleX(-1)";
 let myVideoStream;
+let linkGenerated=false;
 
 // Initialize socket.io
 const socket = io("/");
@@ -97,8 +98,11 @@ const disconnectUser = (userId) => {
 
 // Function to add video stream to the DOM
 const addVideoStream = (video, stream,userId) => {
-  const currentURL = window.location.href;
-  alert(currentURL);  
+  if(!linkGenerated){
+    const currentURL = window.location.href;
+    alert(currentURL);
+    linkGenerated=true;
+  }  
   video.srcObject = stream;
   video.setAttribute('data-user-id', userId);
   video.addEventListener("loadedmetadata", () => {
