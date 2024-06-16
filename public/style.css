@@ -22,10 +22,18 @@
     flex-grow: 1;
     background-color: black;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     padding: 40px;
 }
+
+.main__videos video {
+    flex: 1 1 auto; /* Allows the video elements to grow and shrink as needed */
+    max-width: 45%; /* Ensures that each video does not exceed 45% of the container width */
+    margin: 5px; /* Adds space between video elements */
+}
+
 
 .main__controls {
     background-color: #1C1E20;
@@ -90,6 +98,7 @@
 .main__message_container {
     padding: 22px 12px;
     display: flex;
+    background: rgb(60, 60, 58);
 }
 
 .main__message_container input {

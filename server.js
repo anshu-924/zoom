@@ -17,7 +17,7 @@ const peerServer = ExpressPeerServer(server, {
 });
 
 app.set("view engine", "ejs");
-app.use(express.static("public"));  // Serve static files from 'public' directory
+app.use(express.static("public"));  
 app.use('/peerjs', peerServer);
 
 app.get("/", (req, res) => {
@@ -36,11 +36,16 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("user-connected", userId);
     socket.on('message',message=>{
       io.to(roomId).emit('createMessage',message); 
-    })
-  });
-  
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+    });
+    socket.on("leave-room", (roomId, userId) => {
+      console.log(`User ${userId} left room ${roomId}`);
+      socket.to(roomId).emit('user-disconnected', userId);
+      socket.leave(roomId);
+    });
+    socket.on('disconnect', (roomId, userId) => {
+      console.log(`User ${userId} disconnected`);
+      socket.to(roomId).emit('user-disconnected', userId);
+    });
   });
 });
 

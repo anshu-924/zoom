@@ -11,10 +11,10 @@ const socket = io("/");
 const peer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3030",
 });
 
-// Get user media (video and audio)
+// Get user media (video  and audio)
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -37,6 +37,14 @@ navigator.mediaDevices
     socket.on("user-connected", (userId) => {
       setTimeout(() => {
         connectToNewUser(userId, stream);
+      }, 1000);
+    });
+    // Listen for user disconnected event
+
+    socket.on("user-disconnected", (userId) => {
+      setTimeout(() => {
+        if (peer[userId]) peer[userId].close();
+        disconnectUser(userId, stream);
       }, 1000);
     });
 
@@ -76,9 +84,21 @@ const connectToNewUser = (userId, stream) => {
   console.log(`Connected to new user: ${userId}`);
 };
 
+const disconnectUser = (userId) => {
+  const videoElements = document.querySelectorAll('video');
+  videoElements.forEach(video => {
+    if (video.getAttribute('data-user-id') === userId) {
+      video.remove();
+      window.close();
+    }
+  });
+  console.log(`Disconnected user: ${userId}`);
+};
+
 // Function to add video stream to the DOM
-const addVideoStream = (video, stream) => {
+const addVideoStream = (video, stream,userId) => {
   video.srcObject = stream;
+  video.setAttribute('data-user-id', userId);
   video.addEventListener("loadedmetadata", () => {
     video.play();
   });
@@ -115,6 +135,14 @@ const playStop = () => {
   }
 }
 
+const leaveMeeting = () => { 
+  socket.emit("leave-room", ROOM_ID, peer.id);
+  // Attempt to close the tab or window
+  window.close();
+  setTimeout(() => {
+    window.location.href = "about:blank";
+  }, 1000);
+};
 
 const setMuteButton = () => {
   const html = `
@@ -142,7 +170,7 @@ const setStopVideo = () => {
 
 const setPlayVideo = () => {
   const html = `
-  <i class="stop fas fa-video-slash"></i>
+  <i class="stop fas fa-video-slash"></i> 
     <span>Play Video</span>
   `
   document.querySelector('.main__video_button').innerHTML = html;
