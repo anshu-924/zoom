@@ -11,7 +11,7 @@ const socket = io("/");
 const peer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "3030",
+  port: "443",
 });
 
 // Get user media (video  and audio)
@@ -97,6 +97,8 @@ const disconnectUser = (userId) => {
 
 // Function to add video stream to the DOM
 const addVideoStream = (video, stream,userId) => {
+  const currentURL = window.location.href;
+  alert(currentURL);  
   video.srcObject = stream;
   video.setAttribute('data-user-id', userId);
   video.addEventListener("loadedmetadata", () => {
