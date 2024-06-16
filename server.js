@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = 3030;
+const PORT = 443;
 server.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`);
 });
